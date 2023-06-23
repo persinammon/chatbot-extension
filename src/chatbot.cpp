@@ -115,6 +115,11 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
 
     if (this == &source) return *this; //self-assignment attempt foiled
 
+    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
+    delete _chatLogic;
+    delete _currentNode;
+    delete _rootNode;
+
     //direct assignment to the r-value 
     //member variables
     _image = source.GetImageHandle(); 
