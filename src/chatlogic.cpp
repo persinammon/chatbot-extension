@@ -82,10 +82,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     // load file with answer graph elements
     std::ifstream file(filename);
 
-    vector<Graph *> _nodesComputable{};
-    for (std::unique_ptr<GraphNode> ptr : _nodes) {
-        _nodesComputable.push_back(ptr.get());
-    }
+    // vector<Graph *> _nodesComputable{};
+    // for (std::unique_ptr<GraphNode> ptr : _nodes) {
+    //     _nodesComputable.push_back(ptr.get());
+    // }
 
 
     // check for file availability and process it line by line
@@ -146,18 +146,14 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // }
 
                         //copying a smart pointer would raise an error
-                        auto newNode = std::find_if(_nodesComputable.begin(), _nodesComputable.end(), [&id](GraphNode *node) { return node->GetID() == id; });
+                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
 
                         // create new element if ID does not yet exist
-                        if (newNode == _nodesComputable.end())
+                        if (newNode == _nodes.end())
                         {   
                             //chatlogic owns the nodes, so when it is destructed it cleans up the _nodes automatically
-                            GraphNode g = new GraphNode(id);
-                            std::unique_ptr<GraphNode> ptr(g);
-                            _nodes.push_back(ptr);
-                            _nodesComputable.push_back(ptr.get());
-                            //_nodes.emplace_back(new GraphNode(id));
-                            newNode = _nodesComputable.end() - 1; // get iterator to last element
+                            _nodes.emplace_back(std::make_unique<GraphNode>(id));
+                            newNode = _nodes.end() - 1; // get iterator to last element
 
                             // add all answers to current node
                             //GraphNode tempNode(*((*newNode)->get())); //gets raw pointer from unique ptr
@@ -181,8 +177,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         if (parentToken != tokens.end() && childToken != tokens.end())
                         {
                             // get iterator on incoming and outgoing node via ID search
-                            auto parentNode = std::find_if(_nodesComputable.begin(), _nodesComputable.end(), [&parentToken](GraphNode *node) { return node->GetID() == std::stoi(parentToken->second); });
-                            auto childNode = std::find_if(_nodesComputable.begin(), _nodesComputable.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
+                            auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](GraphNode *node) { return node->GetID() == std::stoi(parentToken->second); });
+                            auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
                             GraphEdge *edge = new GraphEdge(id);
@@ -223,7 +219,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // identify root node
     GraphNode *rootNode = nullptr;
-    for (auto it = std::begin(_nodesComputable); it != std::end(_nodesComputable); ++it)
+    for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
     {
         // search for nodes which have no incoming edges
         if (((*it)->get())->GetNumberOfParents() == 0)
