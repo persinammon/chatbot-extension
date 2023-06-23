@@ -28,7 +28,12 @@ public:
     ~ChatBot();
 
     //// STUDENT CODE
-    ////
+    //// Operator overloading for copy and move operators
+    ChatBot &operator=(const ChatBot &source);
+    ChatBot(const ChatBot &source);
+    ChatBot(ChatBot &&source); //move constructor with r-value reference
+    ChatBot &operator=(ChatBot &&source); 
+    
 
     ////
     //// EOF STUDENT CODE
@@ -37,8 +42,9 @@ public:
     void SetCurrentNode(GraphNode *node);
     void SetRootNode(GraphNode *rootNode) { _rootNode = rootNode; }
     void SetChatLogicHandle(ChatLogic *chatLogic) { _chatLogic = chatLogic; }
-    ChatLogic* GetChatLogicHandle() { return _chatLogic; }
-    wxBitmap *GetImageHandle() { return _image; }
+    //made getter's const
+    ChatLogic* GetChatLogicHandle() const { return _chatLogic; }
+    wxBitmap *GetImageHandle() const { return _image; }
 
     // communication
     void ReceiveMessageFromUser(std::string message);

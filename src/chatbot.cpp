@@ -11,6 +11,8 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
+    std::cout << "ChatBot Constructor without Image" << std::endl;
+
     // invalidate data handles
     _image = nullptr;
     _chatLogic = nullptr;
@@ -40,10 +42,94 @@ ChatBot::~ChatBot()
         delete _image;
         _image = NULL;
     }
+    //chat logic is owned by another smart pointer, no
+    //deallocation should be done
 }
 
 //// STUDENT CODE
-////
+////Make sure to properly allocate / deallocate memory resources on the heap and also copy member data where it makes sense to you. In each of the methods (e.g. the copy constructor), print a string of the type "ChatBot Copy Constructor" to the console so that you can see which method is called in later examples.
+
+//override copy constructor and assignment operator
+
+ChatBot::ChatBot(const ChatBot &source) {
+
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    //copy member variables from source chatbot
+    *_image = *source.GetImageHandle(); //copies data
+    *_chatLogic = *source.GetChatLogicHandle(); //copies data
+    *_currentNode = *source._currentNode; 
+    *_rootNode = *source._rootNode;
+
+}
+
+ChatBot& ChatBot::operator=(const ChatBot &source) {
+
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+
+    if (this == &source) return *this; //self-assignment attempt foiled
+
+    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
+    delete _chatLogic;
+    delete _currentNode;
+    delete _rootNode;
+
+    //copy member variables from source chatbot
+    *_image = *source.GetImageHandle(); //copies data
+    *_chatLogic = *source.GetChatLogicHandle(); //copies data
+    *_currentNode = *source._currentNode;
+    *_rootNode = *source._rootNode;
+
+    return *this;
+}
+
+//override move constructor and assignment operator
+
+ChatBot::ChatBot(ChatBot &&source) {
+    
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
+    delete _chatLogic;
+    delete _currentNode;
+    delete _rootNode;
+
+    //direct assignment to the r-value 
+    //member variables
+    _image = source.GetImageHandle(); 
+    _chatLogic = source.GetChatLogicHandle();
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+
+    //now nullify original r-value values, ownership is being transferred
+    source._image = nullptr;
+    source._chatLogic = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+
+}
+
+ChatBot& ChatBot::operator=(ChatBot &&source) {
+
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+
+    if (this == &source) return *this; //self-assignment attempt foiled
+
+    //direct assignment to the r-value 
+    //member variables
+    _image = source.GetImageHandle(); 
+    _chatLogic = source.GetChatLogicHandle();
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+
+    //now nullify original r-value values, ownership is being transferred
+    source._image = nullptr;
+    source._chatLogic = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
