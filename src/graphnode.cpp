@@ -32,10 +32,13 @@ void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
     _childEdges.push_back(edge);
 }
 
+#include <iostream>
 //// STUDENT CODE
 ////
 void GraphNode::MoveChatbotHere(ChatBot *chatbot)
 {
+    //it's ok to have two pointers to the same chatbot resource
+    //chatbot is owned by a chatlogic which should only have 1 pointer to it (exclusive ownership)
     _chatBot = chatbot;
     _chatBot->SetCurrentNode(this);
 }
