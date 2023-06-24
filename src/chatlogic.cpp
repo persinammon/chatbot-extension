@@ -84,11 +84,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     // load file with answer graph elements
     std::ifstream file(filename);
 
-    // vector<Graph *> _nodesComputable{};
-    // for (std::unique_ptr<GraphNode> ptr : _nodes) {
-    //     _nodesComputable.push_back(ptr.get());
-    // }
-
 
     // check for file availability and process it line by line
     if (file)
@@ -141,11 +136,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         ////
 
                         // check if node with this ID exists already
-                        //auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
-                        // vector<Graph *> _nodesComputable{};
-                        // for (std::unique_ptr<GraphNode> ptr : _nodes) {
-                        //     _nodesComputable.push_back(ptr.get());
-                        // }
 
                         auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
 
