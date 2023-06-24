@@ -145,7 +145,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         //     _nodesComputable.push_back(ptr.get());
                         // }
 
-                        //copying a smart pointer would raise an error
                         auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
 
                         // create new element if ID does not yet exist
