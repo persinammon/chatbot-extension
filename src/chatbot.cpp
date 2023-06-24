@@ -57,9 +57,9 @@ ChatBot::ChatBot(const ChatBot &source) {
 
     //copy member variables from source chatbot
     *_image = *source.GetImageHandle(); //copies data
-    *_chatLogic = *source.GetChatLogicHandle(); //copies data
-    *_currentNode = *source._currentNode; 
-    *_rootNode = *source._rootNode;
+    _chatLogic = source.GetChatLogicHandle();
+    _currentNode = source._currentNode; 
+    _rootNode = source._rootNode;
 
 }
 
@@ -70,15 +70,15 @@ ChatBot& ChatBot::operator=(const ChatBot &source) {
     if (this == &source) return *this; //self-assignment attempt foiled
 
     delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    delete _chatLogic;
-    delete _currentNode;
-    delete _rootNode;
+    _chatLogic = nullptr;
+    _currentNode = nullptr;
+    _rootNode = nullptr;
 
     //copy member variables from source chatbot
     *_image = *source.GetImageHandle(); //copies data
-    *_chatLogic = *source.GetChatLogicHandle(); //copies data
-    *_currentNode = *source._currentNode;
-    *_rootNode = *source._rootNode;
+    _chatLogic = source.GetChatLogicHandle();
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
 
     return *this;
 }
@@ -90,13 +90,13 @@ ChatBot::ChatBot(ChatBot &&source) {
     std::cout << "ChatBot Move Constructor" << std::endl;
 
     delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    delete _chatLogic;
-    delete _currentNode;
-    delete _rootNode;
+    _chatLogic = nullptr;
+    _currentNode = nullptr;
+    _rootNode = nullptr;
 
     //direct assignment to the r-value 
     //member variables
-    _image = source.GetImageHandle(); 
+    _image = source.GetImageHandle(); //only resource owned by chatbot
     _chatLogic = source.GetChatLogicHandle();
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -116,9 +116,9 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
     if (this == &source) return *this; //self-assignment attempt foiled
 
     delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    delete _chatLogic;
-    delete _currentNode;
-    delete _rootNode;
+    _chatLogic = nullptr;
+    _currentNode = nullptr;
+    _rootNode = nullptr;
 
     //direct assignment to the r-value 
     //member variables
