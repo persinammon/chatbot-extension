@@ -56,7 +56,7 @@ ChatBot::ChatBot(const ChatBot &source) {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
     //copy member variables from source chatbot
-    *_image = *source.GetImageHandle(); //copies data
+    _image = source.GetImageHandle(); 
     _chatLogic = source.GetChatLogicHandle();
     _currentNode = source._currentNode; 
     _rootNode = source._rootNode;
@@ -64,6 +64,7 @@ ChatBot::ChatBot(const ChatBot &source) {
 }
 
 ChatBot& ChatBot::operator=(const ChatBot &source) {
+    //const promises that source is unchanged
 
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
@@ -75,7 +76,7 @@ ChatBot& ChatBot::operator=(const ChatBot &source) {
     _rootNode = nullptr;
 
     //copy member variables from source chatbot
-    *_image = *source.GetImageHandle(); //copies data
+    _image = source.GetImageHandle(); 
     _chatLogic = source.GetChatLogicHandle();
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -178,14 +179,20 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     // update pointer to current node
     _currentNode = node;
 
+    // std::cout << _chatLogic << " " << _currentNode << " " << node << std::endl;
+    // std::vector<std::string> answers = _currentNode->GetAnswers();
+    // std::string answer = std::to_string(answers.size());
+
+
     // select a random node answer (if several answers should exist)
     std::vector<std::string> answers = _currentNode->GetAnswers();
     std::mt19937 generator(int(std::time(0)));
     std::uniform_int_distribution<int> dis(0, answers.size() - 1);
     std::string answer = answers.at(dis(generator));
 
+    //std::string answer{"HEllo"};
     // send selected node answer to user
-    //_chatLogic->SendMessageToUser(answer);
+    _chatLogic->SendMessageToUser(answer);
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)

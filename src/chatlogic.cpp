@@ -22,11 +22,11 @@ ChatLogic::ChatLogic()
     _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    //_chatBot->SetChatLogicHandle(this);
+    _chatBot->SetChatLogicHandle(this);
     //this is a pointer to itself
 
     //giving it the same pointer defined in the gui which owns chatLogic 
-    _chatBot->SetChatLogicHandle(_panelDialog->GetChatLogicHandle());
+    //_chatBot->SetChatLogicHandle(_panelDialog->GetChatLogicHandle());
 
     ////
     //// EOF STUDENT CODE
@@ -147,7 +147,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             newNode = _nodes.end() - 1; // get iterator to last element
 
                             // add all answers to current node
-                            GraphNode tempNode(*(*newNode)); 
+                            GraphNode tempNode(*((*newNode).get())); 
                             AddAllTokensToElement("ANSWER", tokens, tempNode);
                         }
 
@@ -230,8 +230,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot); //this errors because it's using a pointer that it's not allowed to?
+    _chatBot->SetRootNode(rootNode); //so the chatbot knows this is the root node
+    rootNode->MoveChatbotHere(_chatBot); //this errors for some reason, it's a raw pointer
     
     ////
     //// EOF STUDENT CODE
