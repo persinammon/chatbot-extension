@@ -147,8 +147,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             newNode = _nodes.end() - 1; // get iterator to last element
 
                             // add all answers to current node
-                            GraphNode tempNode(*((*newNode).get())); 
-                            AddAllTokensToElement("ANSWER", tokens, tempNode);
+                            AddAllTokensToElement("ANSWER", tokens, **newNode);
                         }
 
                         ////
