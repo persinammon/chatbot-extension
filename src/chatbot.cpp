@@ -13,7 +13,7 @@ ChatBot::ChatBot()
 {
     std::cout << "ChatBot Constructor without Image" << std::endl;
 
-    // invalidate data handles
+    // invalidate data handles to start with
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -56,8 +56,8 @@ ChatBot::ChatBot(const ChatBot &source) {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
     //copy member variables from source chatbot
-    _image = source.GetImageHandle(); 
-    _chatLogic = source.GetChatLogicHandle();
+    *_image = *source._image; //deep copy of image 
+    _chatLogic = source.GetChatLogicHandle(); //use same raw pointers 
     _currentNode = source._currentNode; 
     _rootNode = source._rootNode;
 
@@ -76,7 +76,7 @@ ChatBot& ChatBot::operator=(const ChatBot &source) {
     _rootNode = nullptr;
 
     //copy member variables from source chatbot
-    _image = source.GetImageHandle(); 
+    *_image = *source._image; //deep copy of image 
     _chatLogic = source.GetChatLogicHandle();
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -90,7 +90,7 @@ ChatBot::ChatBot(ChatBot &&source) {
     
     std::cout << "ChatBot Move Constructor" << std::endl;
 
-    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
+    if (_image) delete _image; //possibility of re-use of ChatBot typed var, so delete prev
     _chatLogic = nullptr;
     _currentNode = nullptr;
     _rootNode = nullptr;
@@ -99,6 +99,7 @@ ChatBot::ChatBot(ChatBot &&source) {
     //member variables
     _image = source.GetImageHandle(); //only resource owned by chatbot
     _chatLogic = source.GetChatLogicHandle();
+    _chatLogic->SetChatbotHandle(this);
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
 
@@ -116,7 +117,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
 
     if (this == &source) return *this; //self-assignment attempt foiled
 
-    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
+    if (_image) delete _image; //possibility of re-use of ChatBot typed var, so delete prev
     _chatLogic = nullptr;
     _currentNode = nullptr;
     _rootNode = nullptr;
@@ -125,6 +126,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
     //member variables
     _image = source.GetImageHandle(); 
     _chatLogic = source.GetChatLogicHandle();
+    _chatLogic->SetChatbotHandle(this);
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
 

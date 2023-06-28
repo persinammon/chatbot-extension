@@ -218,7 +218,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // add chatbot to graph root node
 
-    ChatBot chatBot((std::string)"../images/chatbot.png"); //this creates chat bot on stack, not new/delete or smart pointer that'd
+    ChatBot chatBot((std::string) "../images/chatbot.png"); //this creates chat bot on stack, not new/delete or smart pointer that'd
                                               // allocate on heap - automatic clean up at end of program then
     SetChatbotHandle(&chatBot); //send memory address to private var pointer setting
 
