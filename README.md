@@ -1,6 +1,10 @@
+# Memory Management Chatbot 
+
+## Notes
+
 I left the README of the original project unchanged.
 
-# Memory Management Chatbot
+## Original README
 
 This is the project for the third course in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213): Memory Management.
 

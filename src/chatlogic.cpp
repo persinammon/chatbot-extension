@@ -19,10 +19,10 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    //_chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    //_chatBot->SetChatLogicHandle(this);
     //this is a pointer to itself
 
     //giving it the same pointer defined in the gui which owns chatLogic 
@@ -37,22 +37,8 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
-    // delete chatbot instance
-    delete _chatBot;
-
-    // this should automatically happen when the pointers are out of scope
-
-    // delete all nodes
-    // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    // {
-    //     delete *it;
-    // }
-
-    // delete all edges
-    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    // {
-    //     delete *it;
-    // }
+    //removed all manual memory deallocation - edges, nodes, and chatbot are all owned by smart pointers now
+    //so automatic deallocation
 
     ////
     //// EOF STUDENT CODE
@@ -231,8 +217,15 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode); //so the chatbot knows this is the root node
-    rootNode->MoveChatbotHere(_chatBot); //this errors for some reason, it's a raw pointer
+
+    ChatBot chatBot((std::string)"../images/chatbot.png"); //this creates chat bot on stack, not new/delete or smart pointer that'd
+                                              // allocate on heap - automatic clean up at end of program then
+    SetChatbotHandle(&chatBot); //send memory address to private var pointer setting
+
+    chatBot.SetChatLogicHandle(this);
+    chatBot.SetRootNode(rootNode);
+
+    rootNode->MoveChatbotHere(std::move(chatBot)); 
     
     ////
     //// EOF STUDENT CODE
