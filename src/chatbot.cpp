@@ -70,11 +70,6 @@ ChatBot& ChatBot::operator=(const ChatBot &source) {
 
     if (this == &source) return *this; //self-assignment attempt foiled
 
-    delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    _chatLogic = nullptr;
-    _currentNode = nullptr;
-    _rootNode = nullptr;
-
     //copy member variables from source chatbot
     *_image = *source._image; //deep copy of image 
     _chatLogic = source.GetChatLogicHandle();
@@ -89,11 +84,6 @@ ChatBot& ChatBot::operator=(const ChatBot &source) {
 ChatBot::ChatBot(ChatBot &&source) {
     
     std::cout << "ChatBot Move Constructor" << std::endl;
-
-    if (_image) delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    _chatLogic = nullptr;
-    _currentNode = nullptr;
-    _rootNode = nullptr;
 
     //direct assignment to the r-value 
     //member variables
@@ -117,10 +107,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
 
     if (this == &source) return *this; //self-assignment attempt foiled
 
-    if (_image) delete _image; //possibility of re-use of ChatBot typed var, so delete prev
-    _chatLogic = nullptr;
-    _currentNode = nullptr;
-    _rootNode = nullptr;
+    // all other pointers will be overwritten in next
 
     //direct assignment to the r-value 
     //member variables
@@ -131,7 +118,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source) {
     _rootNode = source._rootNode;
 
     //now nullify original r-value values, ownership is being transferred
-    source._image = nullptr;
+    source._image = nullptr; // memory leak?
     source._chatLogic = nullptr;
     source._currentNode = nullptr;
     source._rootNode = nullptr;
