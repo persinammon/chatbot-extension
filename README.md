@@ -1,12 +1,9 @@
 # Memory Management Chatbot 
 
-<img src="images/chatbot_demo.gif"/>
+My contribution: What was changed was changing manual new's and delete's to memory managed by smart pointers (all exclusive ownership so unique_ptr's), then
+using move semantics to move objects managed by smart pointers + save memory used, modifying functions to comply with Rule of 5, changing the chatbot to being declared on the stack so that when the program ends it is automatically cleaned up.
 
-As stated in the original starter code - The ChatBot code creates a dialogue where users can ask questions about some aspects of memory management in C++. After the knowledge base of the chatbot has been loaded from a text file, a knowledge graph representation is created in computer memory, where chatbot answers represent the graph nodes and user queries represent the graph edges. After a user query has been sent to the chatbot, the Levenshtein distance is used to identify the most probable answer. The code is fully functional as-is and uses raw pointers to represent the knowledge graph and interconnections between objects throughout the project.
-
-What was changed was changing manual new's and delete's to memory managed by smart pointers (all exclusive ownership so unique_ptr's),
-using move semantics to move objects managed by smart pointers + save memory used, and changing the chatbot to being declared on the stack
-and cleaned up at the end of the program execution because of that.
+As stated in the original starter code - The ChatBot code creates a dialogue where users can ask questions about some aspects of memory management in C++. After the knowledge base of the chatbot has been loaded from a text file, a knowledge graph representation is created in computer memory, where chatbot answers represent the graph nodes and user queries represent the graph edges. After a user query has been sent to the chatbot, the Levenshtein distance is used to identify the most probable answer. The code was fully functional as-is and used raw pointers to represent the knowledge graph and interconnections between objects throughout the project.
 
 ## Dependencies for Running Locally
 * cmake >= 3.11
@@ -47,5 +44,7 @@ ChatBot Move Assignment Operator
 ChatBot Destructor
 ChatBot Destructor 
 ```
+
+<img src="images/chatbot_demo.gif"/>
 
 
